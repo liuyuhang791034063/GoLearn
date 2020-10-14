@@ -26,9 +26,11 @@ func main() {
 
 func Handler(c net.Conn)  {
 	defer c.Close()
+	log.Printf("%s has connected", c.RemoteAddr())
 	for {
 		args := make([]byte, 1024)
 		len, err := c.Read(args)
+		log.Print(string(args))
 		if err != nil {
 			log.Fatal(err)
 			return
