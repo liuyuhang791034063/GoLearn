@@ -29,13 +29,12 @@ func Handler(c net.Conn)  {
 	log.Printf("%s has connected", c.RemoteAddr())
 	for {
 		args := make([]byte, 1024)
-		len, err := c.Read(args)
-		log.Print(string(args))
+		length, err := c.Read(args)
 		if err != nil {
 			log.Fatal(err)
 			return
 		}
-		op := strings.ToLower(string(args[:len-1]))
+		op := strings.ToLower(string(args[:length-1]))
 
 		switch op {
 		case "get":
@@ -51,7 +50,6 @@ func Handler(c net.Conn)  {
 			if err != nil {
 				log.Fatal(err)
 			}
-			return
 		}
 	}
 }

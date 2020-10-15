@@ -15,10 +15,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	log.Printf("Has connected %s\n", conn.LocalAddr())
 	defer conn.Close()
 	for {
 		reader := bufio.NewReader(os.Stdin)
-		str, err := reader.ReadString('\n')
+		str, err := reader.ReadString('\r')
 		if err != nil {
 			log.Fatal(err)
 			return
@@ -27,7 +28,15 @@ func main() {
 		if err!= nil {
 			log.Fatal(err)
 		} else {
-			fmt.Printf("send success, message is %s", str)
+			fmt.Printf("send success, message is %s\n", str)
 		}
+
+		rMsg := make([]byte, 1024)
+		_, err = conn.Read(rMsg)
+		if err != nil {
+			log.Fatal(err)
+			return
+		}
+		log.Printf("receive message is %s\n",string(rMsg))
 	}
 }
