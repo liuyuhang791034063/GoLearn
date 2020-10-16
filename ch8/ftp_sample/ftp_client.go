@@ -12,14 +12,16 @@ import (
 
 func main() {
 	conn, err := net.Dial("tcp", "localhost:8080")
+	defer conn.Close()
+
 	if err != nil {
 		log.Fatal(err)
 	}
 	log.Printf("Has connected %s\n", conn.LocalAddr())
-	defer conn.Close()
+
 	for {
 		reader := bufio.NewReader(os.Stdin)
-		str, err := reader.ReadString('\r')
+		str, err := reader.ReadString('\n')
 		if err != nil {
 			log.Fatal(err)
 			return
@@ -37,6 +39,6 @@ func main() {
 			log.Fatal(err)
 			return
 		}
-		log.Printf("receive message is %s\n",string(rMsg))
+		fmt.Printf("%s", rMsg)
 	}
 }
