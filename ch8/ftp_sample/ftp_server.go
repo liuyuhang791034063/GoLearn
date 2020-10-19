@@ -60,7 +60,11 @@ func Handler(c net.Conn)  {
 				log.Fatal(err)
 			}
 		case "cd":
-			cd(c)
+			message := cd(c)
+			_, err := c.Write([]byte(message))
+			if err != nil {
+				log.Fatal(err)
+			}
 		case "close":
 			c.Close()
 			return
@@ -104,7 +108,12 @@ func ls() string {
 	return res
 }
 
-func cd(conn net.Conn)  {
-
+func cd(conn net.Conn) string {
+	message := "Please input the chdir"
+	_, err := conn.Write([]byte(message))
+	if err != nil {
+		log.Fatal(err)
+	}
+	return message
 }
 
