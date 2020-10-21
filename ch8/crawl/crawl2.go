@@ -28,9 +28,6 @@ func crawl(url string, deep int) []Link {
 func main() {
 	worklist := make(chan []Link)
 	unseenLinks := make(chan Link)
-	var n int
-
-	n++
 
 	go func() { worklist <- []Link{{os.Args[1], 1}}}()
 
@@ -52,5 +49,7 @@ func main() {
 			}
 		}
 	}
+	defer close(unseenLinks)
+	defer close(worklist)
 }
 
