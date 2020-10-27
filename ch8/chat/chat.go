@@ -57,6 +57,8 @@ func handleConn(conn net.Conn) {
 	messages <- who + " has arrived"
 	entering <- ch
 
+	log.Println(who + " has arrived")
+
 	input := bufio.NewScanner(conn)
 	for input.Scan() {
 		messages <- who + ": " + input.Text()
@@ -65,6 +67,7 @@ func handleConn(conn net.Conn) {
 	defer func() {
 		leaving <- ch
 		messages <- who + " has left"
+		log.Println(who + " has left")
 		conn.Close()
 	}()
 }
